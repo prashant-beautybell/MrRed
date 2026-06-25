@@ -1,36 +1,108 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# MrRed — Deal Signal Intelligence
+
+MrRed analyzes deals across company background, financials, licenses, legal factors, and more — then outputs **Red (Stop)**, **Amber (Check)**, or **Green (Go)** signals.
+
+## Features
+
+- **Deal Analysis** — Background research on company, business, numbers, licenses, and operational factors
+- **Rule Register** — Configurable scoring and gate rules
+- **Scoring Matrix** — Point allocation mapping factors to signals
+- **Hard Gate Engine** — Non-negotiable pass/fail checks that override scoring
+- **Leaderboard** — Analyst rankings by deal volume and accuracy
+- **Audit Trail** — Full history of all system actions
+- **Outcome Ledger** — Track predicted vs actual deal outcomes
+
+## Tech Stack
+
+- **Next.js 16** (App Router)
+- **Better Auth** — Email/password authentication
+- **Neon** — Serverless PostgreSQL
+- **Drizzle ORM** — Type-safe database access
+- **Tailwind CSS 4** — Responsive styling
+- **Atomic Design** — Atoms → Molecules → Organisms → Templates
 
 ## Getting Started
 
-First, run the development server:
+### 1. Set up Neon Database
+
+1. Create a free database at [neon.tech](https://neon.tech)
+2. Copy your connection string
+
+### 2. Configure Environment
+
+```bash
+cp .env.example .env.local
+```
+
+Edit `.env.local`:
+
+```env
+DATABASE_URL="postgresql://user:pass@host/db?sslmode=require"
+BETTER_AUTH_SECRET="your-32-char-secret"
+BETTER_AUTH_URL="http://localhost:3000"
+NEXT_PUBLIC_APP_URL="http://localhost:3000"
+```
+
+Generate a secret: `openssl rand -base64 32`
+
+### 3. Push Database Schema
+
+```bash
+npm run db:push
+```
+
+### 4. Run Development Server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Presentation demo data
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Load realistic sample data for demos and pitches:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```env
+DEMO_DATA=true
+NEXT_PUBLIC_DEMO_DATA=true
+```
 
-## Learn More
+This fills the app with 7 sample deals (red/amber/green), rules, hard gates, scoring matrix, audit trail, outcomes, and leaderboard entries.
 
-To learn more about Next.js, take a look at the following resources:
+**Turn off** by setting both to `false` and restarting the dev server.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Open [http://localhost:3000](http://localhost:3000), sign up, then:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. Go to **Rule Register** → **Load Default Rules**
+2. Create a new deal under **Deals**
+3. Fill in research factors and **Run Analysis**
 
-## Deploy on Vercel
+## Project Structure
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
+src/
+├── app/
+│   ├── (auth)/          # Login & signup
+│   ├── (dashboard)/     # Protected app pages
+│   └── api/             # REST API routes
+├── components/
+│   ├── atoms/           # Button, Input, SignalIcon, Badge...
+│   ├── molecules/       # SignalBadge, DealCard, StatCard...
+│   ├── organisms/       # Sidebar, AnalysisPanel, TrafficLight...
+│   └── templates/       # Container, AppLayout, PageHeader
+├── db/
+│   └── schema/          # Drizzle schema (auth, deals, rules...)
+├── lib/
+│   ├── engine/          # Analysis engine (scoring, gates)
+│   └── auth.ts          # Better Auth config
+└── types/               # Shared TypeScript types
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Signal Logic
+
+| Signal | Meaning | Action |
+|--------|---------|--------|
+| 🔴 Red | Stop | Do not proceed — critical issues or low score |
+| 🟡 Amber | Check | Review flagged factors before deciding |
+| 🟢 Green | Go | Strong profile — proceed with due diligence |
+
+Hard gates (invalid license, active litigation, sanctions) automatically force a **Red** signal regardless of score.
