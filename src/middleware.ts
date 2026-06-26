@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const publicPaths = ["/login", "/signup", "/api/auth"];
+const publicPaths = ["/", "/about", "/privacy", "/terms", "/login", "/signup", "/api/auth"];
 const DEV_LOGGED_OUT_COOKIE = "mrred_dev_logged_out";
 
 export async function middleware(request: NextRequest) {
@@ -9,8 +9,14 @@ export async function middleware(request: NextRequest) {
   if (process.env.SKIP_AUTH === "true") {
     const loggedOut = request.cookies.has(DEV_LOGGED_OUT_COOKIE);
     const isAuthPage = pathname === "/login" || pathname === "/signup";
+    const isLanding = pathname === "/";
+    const isPublicPage =
+      isLanding ||
+      pathname === "/about" ||
+      pathname === "/privacy" ||
+      pathname === "/terms";
 
-    if (loggedOut && isAuthPage) {
+    if (loggedOut && (isAuthPage || isPublicPage)) {
       return NextResponse.next();
     }
 
@@ -44,6 +50,6 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|mrred-logo.png|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
+    "/((?!_next/static|_next/image|favicon.ico|mrred-logo.png|mrred-mascot.png|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
   ],
 };

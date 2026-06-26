@@ -7,6 +7,7 @@ interface SpinnerProps {
 
 const sizeMap = { sm: "h-4 w-4", md: "h-6 w-6", lg: "h-8 w-8" };
 
+/** Simple spinner for in-page data fetches (not Mr Red signal sequence) */
 export function Spinner({ size = "md", className }: SpinnerProps) {
   return (
     <div

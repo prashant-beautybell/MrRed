@@ -240,16 +240,16 @@ function getRecommendation(
   scorePercentage: number
 ): string {
   if (criticalFailures.length > 0) {
-    return `STOP — ${criticalFailures.length} critical hard gate(s) failed. Do not proceed with this deal until issues are resolved.`;
+    return `STOP: ${criticalFailures.length} critical hard gate(s) failed. Do not proceed with this deal until issues are resolved.`;
   }
 
   switch (signal) {
     case "green":
-      return `GO — Strong deal profile (${scorePercentage.toFixed(0)}% score). All checks passed. Proceed with due diligence.`;
+      return `GO: Strong deal profile (${scorePercentage.toFixed(0)}% score). All checks passed. Proceed with due diligence.`;
     case "amber":
-      return `CHECK — Moderate risk (${scorePercentage.toFixed(0)}% score). Review flagged factors before proceeding.`;
+      return `CHECK: Moderate risk (${scorePercentage.toFixed(0)}% score). Review flagged factors before proceeding.`;
     case "red":
-      return `STOP — High risk (${scorePercentage.toFixed(0)}% score). Significant concerns identified. Recommend passing on this deal.`;
+      return `STOP: High risk (${scorePercentage.toFixed(0)}% score). Significant concerns identified. Recommend passing on this deal.`;
   }
 }
 

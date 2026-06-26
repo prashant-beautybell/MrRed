@@ -10,10 +10,18 @@ interface TrafficLightProps {
   activeSignal?: Signal;
   /** Cycle red → amber → green when no active signal (login/hero) */
   autoCycle?: boolean;
+  showLegend?: boolean;
+  size?: "sm" | "md" | "lg";
   className?: string;
 }
 
 const lights: Signal[] = ["red", "amber", "green"];
+
+const housingSize = {
+  sm: "w-12 h-32",
+  md: "w-14 h-40 sm:w-16 sm:h-48",
+  lg: "w-16 h-44 sm:w-[4.5rem] sm:h-52",
+};
 
 const signalStyles: Record<
   Signal,
@@ -41,6 +49,8 @@ const ease = [0.4, 0, 0.2, 1] as const;
 export function TrafficLight({
   activeSignal,
   autoCycle = !activeSignal,
+  showLegend = true,
+  size = "md",
   className,
 }: TrafficLightProps) {
   const prefersReducedMotion = useReducedMotion();
@@ -65,31 +75,39 @@ export function TrafficLight({
   return (
     <div
       className={cn(
-        "flex flex-col items-center gap-6 sm:flex-row sm:gap-10",
+        "flex flex-col items-center gap-6",
+        showLegend && "sm:flex-row sm:gap-10",
         className
       )}
     >
-      <div className="flex flex-col gap-4">
-        {lights.map((signal) => {
-          const isActive = highlighted === signal;
-          return (
-            <motion.div
-              key={signal}
-              className="flex items-center gap-3"
-              animate={{
-                opacity: isActive ? 1 : 0.45,
-                scale: isActive ? 1 : 0.96,
-                x: isActive ? 4 : 0,
-              }}
-              transition={{ duration: 0.55, ease }}
-            >
-              <SignalIcon signal={signal} size="md" showLabel />
-            </motion.div>
-          );
-        })}
-      </div>
+      {showLegend && (
+        <div className="flex flex-col gap-4">
+          {lights.map((signal) => {
+            const isActive = highlighted === signal;
+            return (
+              <motion.div
+                key={signal}
+                className="flex items-center gap-3"
+                animate={{
+                  opacity: isActive ? 1 : 0.45,
+                  scale: isActive ? 1 : 0.96,
+                  x: isActive ? 4 : 0,
+                }}
+                transition={{ duration: 0.55, ease }}
+              >
+                <SignalIcon signal={signal} size="md" showLabel />
+              </motion.div>
+            );
+          })}
+        </div>
+      )}
 
-      <div className="flex w-14 h-40 sm:w-16 sm:h-48 bg-foreground rounded-2xl p-2 flex-col gap-2 shadow-lg">
+      <div
+        className={cn(
+          "flex bg-foreground rounded-2xl p-2 flex-col gap-2 shadow-lg",
+          housingSize[size]
+        )}
+      >
         {lights.map((signal) => {
           const isActive = highlighted === signal;
           const style = signalStyles[signal];

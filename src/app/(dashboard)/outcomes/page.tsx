@@ -91,13 +91,13 @@ export default function OutcomesPage() {
                           {outcome.wasCorrect ? "Yes" : "No"}
                         </Badge>
                       ) : (
-                        "—"
+                        "N/A"
                       )}
                     </td>
                     <td className="p-4 hidden md:table-cell">
                       {outcome.roi !== null && outcome.roi !== undefined
                         ? `${outcome.roi.toFixed(1)}%`
-                        : "—"}
+                        : "N/A"}
                     </td>
                     <td className="p-4 hidden lg:table-cell text-muted-foreground">
                       {format(new Date(outcome.recordedAt), "MMM d, yyyy")}

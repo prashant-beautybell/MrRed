@@ -3,14 +3,12 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Logo } from "@/components/atoms/Logo";
 import { Button } from "@/components/atoms/Button";
 import { Input } from "@/components/atoms/Input";
 import { Label } from "@/components/atoms/Label";
-import { Spinner } from "@/components/atoms/Spinner";
-import { Container } from "@/components/templates/Container";
+import { SignalLoader } from "@/components/atoms/SignalLoader";
+import { SIGNAL_STEP_MS_FAST } from "@/lib/signal-loader-timing";
 import { signIn } from "@/lib/auth-client";
-import { TrafficLight } from "@/components/organisms/TrafficLight";
 
 const DEV_LOGGED_OUT_COOKIE = "mrred_dev_logged_out";
 const isDevMode = process.env.NEXT_PUBLIC_SKIP_AUTH === "true";
@@ -45,80 +43,68 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col lg:flex-row">
-      <div className="flex-1 flex items-center justify-center p-6 sm:p-10 bg-muted/30">
-        <div className="max-w-md w-full">
-          <Logo size="lg" className="mb-8 justify-center" />
-          <TrafficLight />
-          <p className="text-center text-muted-foreground mt-6 text-sm">
-            Red stop · Amber check · Green go
-          </p>
+    <>
+      <h1 className="text-2xl font-bold mb-1">Welcome back</h1>
+      <p className="text-muted-foreground text-sm mb-6">
+        Sign in to analyze deals with Mr. Red
+      </p>
+
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="space-y-2">
+          <Label htmlFor="email">Email</Label>
+          <Input
+            id="email"
+            type="email"
+            placeholder="you@company.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
         </div>
-      </div>
+        <div className="space-y-2">
+          <Label htmlFor="password">Password</Label>
+          <Input
+            id="password"
+            type="password"
+            placeholder="••••••••"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
 
-      <div className="flex-1 flex items-center justify-center p-6 sm:p-10">
-        <Container size="sm" className="px-0">
-          <div className="w-full max-w-sm mx-auto">
-            <h1 className="text-2xl font-bold mb-1">Welcome back</h1>
-            <p className="text-muted-foreground text-sm mb-6">
-              Sign in to analyze deals with MrRed
-            </p>
+        {error && (
+          <p className="text-sm text-signal-red bg-signal-red-bg rounded-lg px-3 py-2">
+            {error}
+          </p>
+        )}
 
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="you@company.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="password">Password</Label>
-                <Input
-                  id="password"
-                  type="password"
-                  placeholder="••••••••"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
-              </div>
+        <Button type="submit" className="w-full" disabled={loading}>
+          {loading ? (
+            <SignalLoader size="sm" stepMs={SIGNAL_STEP_MS_FAST} />
+          ) : (
+            "Sign in"
+          )}
+        </Button>
+      </form>
 
-              {error && (
-                <p className="text-sm text-signal-red bg-signal-red-bg rounded-lg px-3 py-2">
-                  {error}
-                </p>
-              )}
+      {isDevMode && (
+        <Button
+          type="button"
+          variant="outline"
+          className="w-full mt-3"
+          onClick={handleDevContinue}
+        >
+          Continue as Dev User
+        </Button>
+      )}
 
-              <Button type="submit" className="w-full" disabled={loading}>
-                {loading ? <Spinner size="sm" /> : "Sign in"}
-              </Button>
-            </form>
-
-            {isDevMode && (
-              <Button
-                type="button"
-                variant="outline"
-                className="w-full mt-3"
-                onClick={handleDevContinue}
-              >
-                Continue as Dev User
-              </Button>
-            )}
-
-            <p className="text-center text-sm text-muted-foreground mt-6">
-              Don&apos;t have an account?{" "}
-              <Link href="/signup" className="text-primary font-medium hover:underline">
-                Sign up
-              </Link>
-            </p>
-          </div>
-        </Container>
-      </div>
-    </div>
+      <p className="text-center text-sm text-muted-foreground mt-6">
+        Don&apos;t have an account?{" "}
+        <Link href="/signup" className="text-primary font-medium hover:underline">
+          Sign up
+        </Link>
+      </p>
+    </>
   );
 }

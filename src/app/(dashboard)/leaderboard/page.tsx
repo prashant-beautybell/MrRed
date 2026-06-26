@@ -95,7 +95,7 @@ export default function LeaderboardPage() {
                       <td className="p-4 hidden sm:table-cell">
                         {entry.accuracy > 0
                           ? `${entry.accuracy.toFixed(0)}%`
-                          : "—"}
+                          : "N/A"}
                       </td>
                       <td className="p-4 hidden md:table-cell">
                         <div className="flex gap-1">

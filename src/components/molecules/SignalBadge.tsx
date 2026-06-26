@@ -11,9 +11,9 @@ interface SignalBadgeProps {
 }
 
 const labels: Record<Signal, string> = {
-  red: "Red — Stop",
-  amber: "Amber — Check",
-  green: "Green — Go",
+  red: "Red · Stop",
+  amber: "Amber · Check",
+  green: "Green · Go",
 };
 
 export function SignalBadge({

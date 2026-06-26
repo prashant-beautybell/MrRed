@@ -13,8 +13,7 @@ export function DemoModeBanner() {
       <p className="text-foreground">
         <span className="font-medium">Presentation mode</span>
         <span className="text-muted-foreground">
-          {" "}
-          — showing sample deals and data. Set{" "}
+          . Showing sample deals and data. Set{" "}
           <code className="rounded bg-muted px-1.5 py-0.5 text-xs">
             DEMO_DATA=false
           </code>{" "}

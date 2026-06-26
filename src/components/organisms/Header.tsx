@@ -1,8 +1,10 @@
 "use client";
 
 import { Button } from "@/components/atoms/Button";
+import { AppNavLinks } from "@/components/molecules/AppNavLinks";
+import { Container } from "@/components/templates/Container";
 import { signOut, useSession } from "@/lib/auth-client";
-import { LogOut, User } from "lucide-react";
+import { LogOut, Menu, User } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 const DEV_LOGGED_OUT_COOKIE = "mrred_dev_logged_out";
@@ -11,7 +13,11 @@ function setDevLoggedOut() {
   document.cookie = `${DEV_LOGGED_OUT_COOKIE}=1; path=/; max-age=86400; SameSite=Lax`;
 }
 
-export function Header() {
+interface HeaderProps {
+  onMenuOpen?: () => void;
+}
+
+export function Header({ onMenuOpen }: HeaderProps) {
   const { data: session } = useSession();
   const router = useRouter();
   const isDevMode = process.env.NEXT_PUBLIC_SKIP_AUTH === "true";
@@ -31,26 +37,37 @@ export function Header() {
     router.refresh();
   };
 
-  if (!showActions) {
-    return (
-      <header className="sticky top-0 z-30 flex h-14 items-center border-b border-border bg-card/80 backdrop-blur-sm px-4 sm:px-6 lg:px-8" />
-    );
-  }
-
   return (
-    <header className="sticky top-0 z-30 flex h-14 items-center justify-end gap-4 border-b border-border bg-card/80 backdrop-blur-sm px-4 sm:px-6 lg:px-8">
-      <div className="flex items-center gap-3 ml-auto">
-        <div className="flex items-center gap-2 text-sm">
-          <div className="hidden sm:flex items-center gap-2 text-muted-foreground">
-            <User className="h-4 w-4" />
-            <span>{userName ?? "Dev User"}</span>
+    <header className="sticky top-0 z-30 w-full shrink-0 border-b border-border bg-card/80 backdrop-blur-sm">
+      <Container fluid className="flex min-h-14 items-center gap-3 py-2">
+        <Button
+          type="button"
+          variant="outline"
+          size="icon"
+          className="h-9 w-9 shrink-0 lg:hidden"
+          onClick={onMenuOpen}
+          aria-label="Open menu"
+        >
+          <Menu className="h-5 w-5" />
+        </Button>
+
+        <nav className="hidden min-w-0 flex-1 items-center justify-end lg:flex">
+          <AppNavLinks className="gap-2 xl:gap-3" />
+        </nav>
+
+        {showActions && (
+          <div className="ml-auto flex shrink-0 items-center gap-2 sm:gap-3 lg:ml-0">
+            <div className="hidden sm:flex items-center gap-2 text-sm text-muted-foreground">
+              <User className="h-4 w-4" />
+              <span>{userName ?? "Dev User"}</span>
+            </div>
+            <Button variant="ghost" size="sm" onClick={handleSignOut}>
+              <LogOut className="h-4 w-4" />
+              <span className="hidden sm:inline">Sign out</span>
+            </Button>
           </div>
-          <Button variant="ghost" size="sm" onClick={handleSignOut}>
-            <LogOut className="h-4 w-4" />
-            <span className="hidden sm:inline">Sign out</span>
-          </Button>
-        </div>
-      </div>
+        )}
+      </Container>
     </header>
   );
 }

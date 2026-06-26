@@ -1,20 +1,27 @@
+"use client";
+
+import { useState } from "react";
 import { Sidebar } from "@/components/organisms/Sidebar";
 import { Header } from "@/components/organisms/Header";
-import { Container } from "@/components/templates/Container";
-import { DemoModeBanner } from "@/components/molecules/DemoModeBanner";
+import { AppMain } from "@/components/templates/AppMain";
+import { InitialLoadOverlay } from "@/components/organisms/LoadOverlay";
 
 export function AppLayout({ children }: { children: React.ReactNode }) {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
   return (
-    <div className="flex min-h-screen bg-background">
-      <Sidebar />
-      <div className="flex flex-1 flex-col min-w-0 lg:ml-0">
-        <Header />
-        <main className="flex-1 py-6 sm:py-8">
-          <Container>
-            <DemoModeBanner />
-            {children}
-          </Container>
-        </main>
+    <div className="flex min-h-screen w-full bg-background">
+      <InitialLoadOverlay
+        label="Loading dashboard"
+        sessionKey="mrred-dashboard-initial"
+      />
+      <Sidebar
+        mobileOpen={mobileMenuOpen}
+        onMobileOpenChange={setMobileMenuOpen}
+      />
+      <div className="flex min-w-0 flex-1 flex-col w-full">
+        <Header onMenuOpen={() => setMobileMenuOpen(true)} />
+        <AppMain>{children}</AppMain>
       </div>
     </div>
   );

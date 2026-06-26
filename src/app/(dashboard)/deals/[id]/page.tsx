@@ -8,6 +8,7 @@ import { Button } from "@/components/atoms/Button";
 import { Input } from "@/components/atoms/Input";
 import { Label } from "@/components/atoms/Label";
 import { Spinner } from "@/components/atoms/Spinner";
+import { AnalyzingOverlay } from "@/components/organisms/LoadOverlay";
 import { Badge } from "@/components/atoms/Badge";
 import { SignalBadge } from "@/components/molecules/SignalBadge";
 import type { AnalysisResult, Signal } from "@/types";
@@ -112,6 +113,7 @@ export default function DealDetailPage() {
 
   return (
     <div>
+      <AnalyzingOverlay active={analyzing} />
       <PageHeader
         title={deal.name}
         description={deal.companyName}
@@ -153,7 +155,7 @@ export default function DealDetailPage() {
             disabled={analyzing}
             className="mt-6 w-full sm:w-auto"
           >
-            {analyzing ? <Spinner size="sm" /> : "Run Analysis"}
+            {analyzing ? "Analyzing" : "Run Analysis"}
           </Button>
         </div>
 
