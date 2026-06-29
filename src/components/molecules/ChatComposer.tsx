@@ -1,9 +1,10 @@
 "use client";
 
-import { forwardRef, useId, useRef } from "react";
+import { forwardRef, useCallback, useId, useRef } from "react";
 import { Button } from "@/components/atoms/Button";
 import { ChatDisclaimer } from "@/components/molecules/ChatDisclaimer";
-import { FileText, Plus, Send, X } from "lucide-react";
+import { useSpeechRecognition } from "@/hooks/useSpeechRecognition";
+import { FileText, Mic, Paperclip, Send, Square, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export type ComposerAttachment = {
@@ -27,6 +28,23 @@ interface ChatComposerProps {
   onRemoveAttachment?: (id: string) => void;
 }
 
+const composerShell = cn(
+  "relative flex flex-col overflow-hidden transition-all duration-300",
+  "rounded-2xl sm:rounded-[1.35rem]",
+  "border-2 border-primary/40",
+  "bg-gradient-to-b from-white via-signal-red-bg/40 to-signal-red-bg/70",
+  "shadow-[0_4px_28px_-10px_rgba(220,38,38,0.28),inset_0_1px_0_rgba(255,255,255,0.9)]",
+  "focus-within:border-primary/70",
+  "focus-within:shadow-[0_12px_48px_-14px_rgba(220,38,38,0.42),inset_0_1px_0_rgba(255,255,255,0.95)]"
+);
+
+const iconButtonClass = cn(
+  "h-10 w-10 shrink-0 rounded-xl",
+  "border border-primary/15 bg-white/80 text-foreground",
+  "hover:bg-white hover:border-primary/30 hover:text-primary",
+  "shadow-sm transition-all"
+);
+
 export const ChatComposer = forwardRef<HTMLTextAreaElement, ChatComposerProps>(
   function ChatComposer(
     {
@@ -36,7 +54,7 @@ export const ChatComposer = forwardRef<HTMLTextAreaElement, ChatComposerProps>(
       onKeyDown,
       disabled,
       variant = "bar",
-      placeholder = "Ask about a company, stock, deal, or signal",
+      placeholder = "Ask anything — deals, travel, people, local picks…",
       attachments = [],
       onFilesSelected,
       onRemoveAttachment,
@@ -49,6 +67,16 @@ export const ChatComposer = forwardRef<HTMLTextAreaElement, ChatComposerProps>(
     const canSubmit = Boolean(value.trim() || attachments.length > 0);
     const uploadEnabled = Boolean(onFilesSelected);
 
+    const handleTranscript = useCallback(
+      (text: string) => {
+        onChange(value.trim() ? `${value.trim()} ${text}` : text);
+      },
+      [onChange, value]
+    );
+
+    const { isListening, supported, toggleListening } =
+      useSpeechRecognition(handleTranscript);
+
     const openFilePicker = () => {
       if (disabled) return;
       fileInputRef.current?.click();
@@ -58,9 +86,8 @@ export const ChatComposer = forwardRef<HTMLTextAreaElement, ChatComposerProps>(
       <div className="w-full">
         <div
           className={cn(
-            "relative flex flex-col rounded-2xl border border-border bg-card shadow-sm transition-shadow",
-            "focus-within:border-primary/30 focus-within:shadow-md",
-            isHero ? "min-h-[160px] sm:min-h-[180px] p-4 sm:p-5" : "p-3"
+            composerShell,
+            isHero ? "min-h-[168px] sm:min-h-[188px] p-4 sm:p-5" : "p-3 sm:p-3.5"
           )}
         >
           {attachments.length > 0 && (
@@ -68,10 +95,10 @@ export const ChatComposer = forwardRef<HTMLTextAreaElement, ChatComposerProps>(
               {attachments.map((attachment) => (
                 <div
                   key={attachment.id}
-                  className="inline-flex max-w-full items-center gap-2 rounded-lg border border-border bg-muted/50 px-2.5 py-1.5"
+                  className="inline-flex max-w-full items-center gap-2 rounded-lg border border-primary/15 bg-white/90 px-2.5 py-1.5 shadow-sm"
                 >
-                  <FileText className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
-                  <span className="truncate text-xs text-foreground max-w-[12rem] sm:max-w-[16rem]">
+                  <FileText className="h-3.5 w-3.5 shrink-0 text-primary/70" />
+                  <span className="truncate text-xs font-medium text-foreground max-w-[12rem] sm:max-w-[16rem]">
                     {attachment.file.name}
                   </span>
                   {onRemoveAttachment && (
@@ -79,7 +106,7 @@ export const ChatComposer = forwardRef<HTMLTextAreaElement, ChatComposerProps>(
                       type="button"
                       onClick={() => onRemoveAttachment(attachment.id)}
                       disabled={disabled}
-                      className="rounded-md p-0.5 text-muted-foreground hover:bg-muted hover:text-foreground"
+                      className="rounded-md p-0.5 text-muted-foreground hover:bg-primary/10 hover:text-primary"
                       aria-label={`Remove ${attachment.file.name}`}
                     >
                       <X className="h-3.5 w-3.5" />
@@ -99,8 +126,8 @@ export const ChatComposer = forwardRef<HTMLTextAreaElement, ChatComposerProps>(
             disabled={disabled}
             rows={isHero ? 3 : 1}
             className={cn(
-              "w-full resize-none bg-transparent text-sm sm:text-base text-foreground placeholder:text-muted-foreground",
-              "focus-visible:outline-none",
+              "w-full resize-none bg-transparent text-sm sm:text-[15px] text-foreground placeholder:text-muted-foreground/80",
+              "focus-visible:outline-none leading-relaxed",
               isHero ? "min-h-[72px] flex-1" : "min-h-[44px] max-h-32"
             )}
             onInput={(e) => {
@@ -114,8 +141,7 @@ export const ChatComposer = forwardRef<HTMLTextAreaElement, ChatComposerProps>(
           <div
             className={cn(
               "flex items-center gap-2",
-              isHero ? "mt-3 pt-2 border-t border-border/60" : "mt-2",
-              uploadEnabled ? "justify-between" : "justify-end"
+              isHero ? "mt-3 pt-3 border-t border-primary/15" : "mt-2.5"
             )}
           >
             {uploadEnabled && (
@@ -137,35 +163,62 @@ export const ChatComposer = forwardRef<HTMLTextAreaElement, ChatComposerProps>(
                 />
                 <Button
                   type="button"
-                  variant="outline"
+                  variant="ghost"
                   size="icon"
-                  className="h-10 w-10 shrink-0 rounded-xl"
+                  className={iconButtonClass}
                   disabled={disabled}
                   onClick={openFilePicker}
                   aria-label="Upload documents to analyze"
                   title="Upload documents (PDF, Word, Excel, CSV, PowerPoint)"
                 >
-                  <Plus className="h-4 w-4" />
+                  <Paperclip className="h-4 w-4" />
                 </Button>
               </>
             )}
 
-            <Button
-              type="button"
-              size={isHero ? "default" : "icon"}
-              className={cn(
-                "rounded-xl shrink-0",
-                isHero ? "px-4" : "h-10 w-10"
+            <div className="ml-auto flex items-center gap-2">
+              {supported && (
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  className={cn(
+                    iconButtonClass,
+                    isListening &&
+                      "border-primary bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground animate-pulse"
+                  )}
+                  disabled={disabled}
+                  onClick={toggleListening}
+                  aria-label={isListening ? "Stop listening" : "Voice input"}
+                  title={isListening ? "Stop listening" : "Voice input"}
+                >
+                  {isListening ? (
+                    <Square className="h-3.5 w-3.5 fill-current" />
+                  ) : (
+                    <Mic className="h-4 w-4" />
+                  )}
+                </Button>
               )}
-              disabled={!canSubmit || disabled}
-              onClick={onSubmit}
-            >
-              <Send className={cn("h-4 w-4", isHero && "mr-2")} />
-              {isHero && "Send"}
-            </Button>
+
+              <Button
+                type="button"
+                size={isHero ? "default" : "icon"}
+                className={cn(
+                  "shrink-0 rounded-xl shadow-md",
+                  "bg-primary hover:bg-primary/90 text-primary-foreground",
+                  "disabled:opacity-40 disabled:shadow-none",
+                  isHero ? "h-10 px-5 font-medium" : "h-10 w-10"
+                )}
+                disabled={!canSubmit || disabled}
+                onClick={onSubmit}
+              >
+                <Send className={cn("h-4 w-4", isHero && "mr-2")} />
+                {isHero && "Send"}
+              </Button>
+            </div>
           </div>
         </div>
-        <ChatDisclaimer className="mt-2" />
+        <ChatDisclaimer className="mt-3 opacity-80" />
       </div>
     );
   }

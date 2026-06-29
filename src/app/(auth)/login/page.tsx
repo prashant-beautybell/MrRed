@@ -46,7 +46,7 @@ export default function LoginPage() {
     <>
       <h1 className="text-2xl font-bold mb-1">Welcome back</h1>
       <p className="text-muted-foreground text-sm mb-6">
-        Sign in to analyze deals with Mr. Red
+        Sign in to your everyday companion
       </p>
 
       <form onSubmit={handleSubmit} className="space-y-4">

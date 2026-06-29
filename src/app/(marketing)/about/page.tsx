@@ -11,9 +11,9 @@ export default function AboutPage() {
       />
       <div className="prose prose-sm sm:prose-base max-w-none text-muted-foreground space-y-4">
         <p>
-          Mr. Red helps you research companies, stress-test deals, and return
-          clear red, amber, or green signals using hard gates, weighted scoring,
-          and a full audit trail.
+          Mr. Red is your everyday decision companion — vet people and
+          businesses, plan travel, find value, and get a single red, amber, or
+          green call with clear reasoning.
         </p>
         <p>
           <Link href="/dashboard" className="text-primary hover:underline">

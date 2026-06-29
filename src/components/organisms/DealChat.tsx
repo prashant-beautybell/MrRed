@@ -249,16 +249,18 @@ export function DealChat() {
   if (isEmpty) {
     return (
       <>
-      <div className="flex w-full flex-col min-h-[calc(100dvh-6rem)] py-8 pb-28 sm:pb-8">
-          <div className="mx-auto flex w-full max-w-3xl flex-col items-center text-center mb-8 sm:mb-10">
-            <MrRedBrand size="lg" className="mb-4" />
-            <p className="text-lg text-muted-foreground mb-3">{greeting}</p>
-            <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
-              Research companies, stress-test deals, and get{" "}
+      <div className="flex w-full flex-col min-h-[calc(100dvh-6rem)] py-10 pb-28 sm:pb-10">
+          <div className="mx-auto flex w-full max-w-3xl flex-col items-center text-center mb-10 sm:mb-12">
+            <MrRedBrand size="lg" className="mb-5" />
+            <p className="text-xl font-medium tracking-tight text-foreground mb-3">
+              {greeting}
+            </p>
+            <p className="text-sm sm:text-base text-muted-foreground leading-relaxed max-w-lg">
+              Deep research with real product links, then one clear{" "}
               <span className="text-foreground font-medium">red</span>,{" "}
               <span className="text-signal-amber font-medium">amber</span>, or{" "}
-              <span className="text-signal-green font-medium">green</span> signals
-              before you commit.
+              <span className="text-signal-green font-medium">green</span> verdict
+              — built for decisions, not generic comparisons.
             </p>
           </div>
 
@@ -274,7 +276,7 @@ export function DealChat() {
               attachments={attachments}
               onFilesSelected={handleFilesSelected}
               onRemoveAttachment={handleRemoveAttachment}
-              placeholder="Ask about a stock, deal, company history, or why something is trending"
+              placeholder="Ask anything — deals, people, hotels, flights, local picks, or surprise me…"
             />
           </div>
 
@@ -330,10 +332,11 @@ export function DealChat() {
 
         <div
           className={cn(
-            "shrink-0 border-t border-border bg-background/95 backdrop-blur-sm",
+            "shrink-0 border-t border-border/60 bg-white/80 backdrop-blur-xl",
             "py-4 pb-5"
           )}
         >
+          <div className="mx-auto w-full max-w-3xl px-1">
           <div className="mb-3">
             <div className="flex flex-wrap justify-center gap-2">
               {suggestions.slice(0, 3).map((s) => (
@@ -359,6 +362,7 @@ export function DealChat() {
             onFilesSelected={handleFilesSelected}
             onRemoveAttachment={handleRemoveAttachment}
           />
+          </div>
         </div>
       </div>
     </>

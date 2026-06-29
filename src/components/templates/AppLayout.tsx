@@ -10,7 +10,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <div className="flex min-h-screen w-full bg-background">
+    <div className="flex min-h-screen w-full bg-[radial-gradient(ellipse_at_top_left,rgba(254,242,242,0.45),transparent_50%)]">
       <InitialLoadOverlay
         label="Loading dashboard"
         sessionKey="mrred-dashboard-initial"

@@ -30,7 +30,7 @@ export function Sidebar({ mobileOpen, onMobileOpenChange }: SidebarProps) {
 
       <aside
         className={cn(
-          "fixed inset-y-0 left-0 z-50 w-64 border-r border-border bg-card flex flex-col transition-transform lg:translate-x-0 lg:static lg:z-auto",
+          "fixed inset-y-0 left-0 z-50 w-64 border-r border-border/60 bg-card/95 backdrop-blur-xl flex flex-col transition-transform lg:translate-x-0 lg:static lg:z-auto shadow-[4px_0_24px_-12px_rgba(0,0,0,0.08)]",
           mobileOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >

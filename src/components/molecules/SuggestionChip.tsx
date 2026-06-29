@@ -47,8 +47,9 @@ export function SuggestionChip({
         onClick={onClick}
         title={text}
         className={cn(
-          "inline-flex w-fit max-w-[min(100%,20rem)] items-center gap-2 rounded-full border border-border bg-card px-4 py-2.5 text-sm text-foreground shadow-sm",
-          "hover:border-primary/35 hover:bg-primary/5 transition-colors",
+          "inline-flex w-fit max-w-[min(100%,20rem)] items-center gap-2 rounded-full border border-border/70 bg-white/90 px-4 py-2.5 text-sm text-foreground",
+          "shadow-[0_2px_12px_-4px_rgba(0,0,0,0.08)]",
+          "hover:border-primary/30 hover:bg-white hover:shadow-[0_4px_16px_-4px_rgba(220,38,38,0.15)] transition-all",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
           className
         )}

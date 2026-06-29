@@ -1,22 +1,22 @@
 @import "tailwindcss";
 
 :root {
-  --background: #fafafa;
-  --foreground: #0f0f0f;
+  --background: #f8f8f9;
+  --foreground: #09090b;
   --card: #ffffff;
-  --card-foreground: #0f0f0f;
-  --muted: #f4f4f5;
-  --muted-foreground: #71717a;
-  --border: #e4e4e7;
+  --card-foreground: #09090b;
+  --muted: #f1f1f3;
+  --muted-foreground: #6b7280;
+  --border: #e8e8ec;
   --primary: #dc2626;
   --primary-foreground: #ffffff;
   --secondary: #f4f4f5;
   --secondary-foreground: #18181b;
-  --accent: #f4f4f5;
-  --accent-foreground: #18181b;
+  --accent: #fef2f2;
+  --accent-foreground: #991b1b;
   --destructive: #dc2626;
   --ring: #dc2626;
-  --radius: 0.625rem;
+  --radius: 0.75rem;
 
   --signal-red: #dc2626;
   --signal-amber: #f59e0b;
@@ -65,6 +65,23 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Premium surface utilities */
+.premium-surface {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.92) 0%,
+    rgba(255, 255, 255, 0.78) 100%
+  );
+  backdrop-filter: blur(12px);
+}
+
+.premium-card {
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.8) inset,
+    0 8px 32px -12px rgba(0, 0, 0, 0.08);
 }
 
 @keyframes mrred-dance {

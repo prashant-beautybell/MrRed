@@ -13,9 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Mr. Red | Deal Signal Intelligence",
+  title: "Mr. Red | Your Everyday Decision Companion",
   description:
-    "Analyze deals with red, amber, and green signals. Background research, scoring matrix, hard gates, and outcome tracking.",
+    "One clear red, amber, or green verdict on deals, people, travel, investments, and everyday choices — with reasoning you can act on.",
   icons: {
     icon: [{ url: "/mrred-mascot.png", type: "image/png" }],
     apple: "/mrred-mascot.png",

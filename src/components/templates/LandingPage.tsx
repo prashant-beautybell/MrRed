@@ -25,16 +25,16 @@ const startHref =
 const features = [
   {
     icon: MessageSquare,
-    title: "Ask Mr. Red",
+    title: "Ask anything",
     description:
-      "Chat through companies, stocks, and deals. Get structured research before you commit capital.",
+      "Deals, hires, hotels, flights, local services, or a surprise night out — chat naturally and get one clear verdict.",
     accent: "text-primary bg-signal-red-bg",
   },
   {
     icon: Shield,
-    title: "Hard gate engine",
+    title: "People & trust checks",
     description:
-      "Non-negotiable checks on licenses, litigation, and sanctions. Critical fails override any score.",
+      "Vet employees, contractors, vendors, and partners — background patterns, references, and trust signals in plain language.",
     accent: "text-signal-red bg-signal-red-bg",
   },
   {
@@ -70,24 +70,24 @@ const features = [
 const steps = [
   {
     step: "01",
-    title: "Ask or upload",
-    body: "Start a chat about a target or open a structured deal analysis with your known numbers.",
+    title: "Ask anything",
+    body: "A deal, a hire, a hotel, flights on a budget, or “surprise me” — chat like you would with a sharp friend.",
   },
   {
     step: "02",
-    title: "Run the engine",
-    body: "Mr. Red applies hard gates, scores factors, and returns red, amber, or green with reasoning.",
+    title: "Get one color",
+    body: "Mr. Red returns a single red, amber, or green verdict with clear reasoning — no tables, no noise.",
   },
   {
     step: "03",
-    title: "Decide with confidence",
-    body: "Walk away, dig deeper, or proceed. Every call is logged for your team and future deals.",
+    title: "Act with confidence",
+    body: "Walk away, dig deeper, or go — whether it's capital, trust, or your Saturday plans.",
   },
 ];
 
 function LandingNav() {
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/60 bg-background/80 backdrop-blur-md">
+    <header className="sticky top-0 z-50 w-full border-b border-border/50 premium-surface">
       <Container className="flex h-16 items-center justify-between">
         <Link href="/" className="flex items-center gap-2.5">
           <MrRedMascot size="sm" />
@@ -119,49 +119,55 @@ function LandingNav() {
 
 function LandingHero() {
   return (
-    <section className="relative overflow-hidden">
-      <div
-        className="pointer-events-none absolute inset-0"
-        aria-hidden
-      >
-        <div className="absolute -top-32 left-1/2 h-[32rem] w-[32rem] -translate-x-1/2 rounded-full bg-primary/8 blur-3xl" />
-        <div className="absolute top-1/2 -right-24 h-72 w-72 rounded-full bg-signal-amber/10 blur-3xl" />
-        <div className="absolute bottom-0 -left-24 h-64 w-64 rounded-full bg-signal-green/10 blur-3xl" />
+    <section className="relative overflow-hidden border-b border-border/40">
+      <div className="pointer-events-none absolute inset-0" aria-hidden>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,rgba(220,38,38,0.12),transparent)]" />
+        <div className="absolute top-1/3 -right-32 h-96 w-96 rounded-full bg-signal-amber/8 blur-3xl" />
+        <div className="absolute bottom-0 -left-32 h-80 w-80 rounded-full bg-signal-green/8 blur-3xl" />
       </div>
 
-      <Container className="relative pb-20 pt-12 sm:pb-28 sm:pt-16 lg:pt-20">
-        <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+      <Container className="relative pb-20 pt-14 sm:pb-28 sm:pt-20 lg:pt-24">
+        <div className="grid items-center gap-14 lg:grid-cols-2 lg:gap-20">
           <div>
-            <p className="mb-4 inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-xs font-medium text-muted-foreground shadow-sm">
+            <p className="mb-5 inline-flex items-center gap-2 rounded-full border border-primary/15 bg-white/80 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-wide text-primary shadow-sm">
               <span className="h-1.5 w-1.5 rounded-full bg-signal-green animate-pulse" />
-              Deal signal intelligence
+              Your everyday companion
             </p>
-            <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-[3.25rem] lg:leading-[1.1]">
-              Know when to{" "}
-              <span className="text-primary">stop</span>,{" "}
-              <span className="text-signal-amber">check</span>, or{" "}
-              <span className="text-signal-green">go</span>
+            <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-[3.5rem] lg:leading-[1.08]">
+              One color.{" "}
+              <span className="text-primary">Clear reasoning.</span>{" "}
+              <span className="text-signal-amber">Any decision.</span>
             </h1>
-            <p className="mt-5 max-w-lg text-lg text-muted-foreground leading-relaxed">
-              Mr. Red stress-tests companies and deals with hard gates, weighted
-              scoring, and clear red-amber-green signals before you commit.
+            <p className="mt-6 max-w-lg text-lg text-muted-foreground leading-relaxed">
+              Mr. Red vets businesses and people, finds the best hotel for the
+              buck, plans trips on your budget, and stress-tests investments —
+              then gives a single red, amber, or green call with why.
             </p>
-            <div className="mt-8 flex flex-wrap items-center gap-3">
-              <Button size="lg" asChild>
+            <div className="mt-9 flex flex-wrap items-center gap-3">
+              <Button
+                size="lg"
+                className="h-12 px-7 shadow-[0_8px_24px_-8px_rgba(220,38,38,0.55)]"
+                asChild
+              >
                 <Link href={startHref}>
                   Start analyzing
                   <ArrowRight className="h-4 w-4" />
                 </Link>
               </Button>
-              <Button size="lg" variant="outline" asChild>
+              <Button
+                size="lg"
+                variant="outline"
+                className="h-12 border-border/80 bg-white/60 backdrop-blur-sm"
+                asChild
+              >
                 <Link href="/login">Sign in</Link>
               </Button>
             </div>
             <ul className="mt-10 flex flex-wrap gap-x-6 gap-y-2 text-sm text-muted-foreground">
               {[
-                "Background & financials",
-                "License & compliance gates",
-                "Audit-ready decisions",
+                "Hire & trust checks",
+                "Deals & investments",
+                "Travel & best value",
               ].map((item) => (
                 <li key={item} className="flex items-center gap-2">
                   <CheckCircle2 className="h-4 w-4 text-signal-green shrink-0" />
@@ -172,13 +178,14 @@ function LandingHero() {
           </div>
 
           <div className="flex flex-col items-center justify-center gap-8">
-            <div className="flex items-end justify-center gap-6 sm:gap-10">
-              <MrRedMascot size="2xl" priority className="drop-shadow-sm" />
+            <div className="relative flex items-end justify-center gap-6 sm:gap-10">
+              <div className="absolute inset-0 -z-10 rounded-full bg-primary/10 blur-3xl scale-110" />
+              <MrRedMascot size="2xl" priority className="drop-shadow-lg" />
               <TrafficLight
                 showLegend={false}
                 autoCycle
                 size="lg"
-                className="pb-2"
+                className="pb-2 drop-shadow-sm"
               />
             </div>
             <MrRedWordmark size="lg" />
@@ -197,14 +204,16 @@ function StatsStrip() {
   ];
 
   return (
-    <section className="border-y border-border bg-card">
-      <Container className="grid grid-cols-3 divide-x divide-border">
+    <section className="border-y border-border/60 bg-gradient-to-b from-white to-muted/30">
+      <Container className="grid grid-cols-3 divide-x divide-border/60">
         {stats.map((stat) => (
-          <div key={stat.label} className="py-8 text-center sm:py-10">
-            <p className="text-3xl font-bold text-foreground sm:text-4xl">
+          <div key={stat.label} className="py-10 text-center sm:py-12">
+            <p className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
               {stat.value}
             </p>
-            <p className="mt-1 text-sm text-muted-foreground">{stat.label}</p>
+            <p className="mt-1.5 text-sm font-medium text-muted-foreground">
+              {stat.label}
+            </p>
           </div>
         ))}
       </Container>
@@ -218,18 +227,18 @@ function FeaturesSection() {
       <Container>
         <div className="max-w-2xl">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-            Everything you need to vet a deal
+            Built for decisions big and small
           </h2>
           <p className="mt-4 text-lg text-muted-foreground">
-            From first chat to signed outcome, Mr. Red keeps research structured
-            and decisions defensible.
+            From closing a deal to booking a flight or picking a barber — one
+            language, one verdict, clear reasoning.
           </p>
         </div>
-        <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {features.map((feature) => (
             <div
               key={feature.title}
-              className="group rounded-2xl border border-border bg-card p-6 shadow-sm transition-shadow hover:shadow-md"
+              className="group rounded-2xl border border-border/60 bg-card p-6 premium-card transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/20 hover:shadow-[0_16px_40px_-16px_rgba(220,38,38,0.2)]"
             >
               <div
                 className={cn(
@@ -255,7 +264,7 @@ function HowItWorksSection() {
   return (
     <section
       id="how-it-works"
-      className="border-t border-border bg-zinc-50 py-20 sm:py-28"
+      className="border-t border-border/60 bg-muted/40 py-20 sm:py-28"
     >
       <Container>
         <div className="text-center max-w-2xl mx-auto">
@@ -312,11 +321,11 @@ function SignalsSection() {
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
           <div>
             <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-              One language for every deal
+              One language for every call
             </h2>
             <p className="mt-4 text-lg text-muted-foreground leading-relaxed">
-              No more ambiguous takeaways. Every analysis resolves to a traffic
-              light your whole team understands instantly.
+              No verdict tables — just red, amber, or green for your specific
+              question, plus the reasoning behind it.
             </p>
             <div className="mt-8 flex justify-center lg:justify-start">
               <TrafficLight autoCycle size="md" />
@@ -362,20 +371,28 @@ function SignalsSection() {
 
 function CtaSection() {
   return (
-    <section className="border-t border-border bg-foreground py-20 text-background sm:py-24">
-      <Container className="text-center">
-        <MrRedMascot size="lg" className="mx-auto mb-6 opacity-95" />
+    <section className="relative overflow-hidden border-t border-border py-20 sm:py-24">
+      <div
+        className="absolute inset-0 bg-gradient-to-br from-zinc-950 via-zinc-900 to-primary/40"
+        aria-hidden
+      />
+      <div
+        className="absolute inset-0 opacity-30 bg-[radial-gradient(circle_at_30%_20%,rgba(220,38,38,0.5),transparent_50%)]"
+        aria-hidden
+      />
+      <Container className="relative text-center text-white">
+        <MrRedMascot size="lg" className="mx-auto mb-6 opacity-95 drop-shadow-lg" />
         <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-          Ready to stress-test your next deal?
+          Ready for your next decision?
         </h2>
-        <p className="mx-auto mt-4 max-w-xl text-lg text-background/70">
-          Join teams using Mr. Red to research faster, gate harder, and decide
-          with clarity.
+        <p className="mx-auto mt-4 max-w-xl text-lg text-white/75">
+          Deals, people, travel, surprises — ask Mr. Red and get one color with
+          why.
         </p>
-        <div className="mt-8 flex flex-wrap justify-center gap-3">
+        <div className="mt-9 flex flex-wrap justify-center gap-3">
           <Button
             size="lg"
-            className="bg-primary hover:bg-primary/90 text-primary-foreground"
+            className="h-12 bg-primary px-7 shadow-[0_8px_32px_-8px_rgba(220,38,38,0.7)] hover:bg-primary/90 text-primary-foreground"
             asChild
           >
             <Link href={startHref}>
@@ -386,7 +403,7 @@ function CtaSection() {
           <Button
             size="lg"
             variant="outline"
-            className="border-background/30 bg-transparent text-background hover:bg-background/10 hover:text-background"
+            className="h-12 border-white/25 bg-white/5 text-white backdrop-blur-sm hover:bg-white/10 hover:text-white"
             asChild
           >
             <Link href="/login">Sign in</Link>
@@ -403,7 +420,7 @@ function LandingFooter() {
 
 export function LandingPage() {
   return (
-    <div className="min-h-screen bg-background flex flex-col w-full">
+    <div className="min-h-screen bg-[radial-gradient(ellipse_at_top,rgba(254,242,242,0.5),transparent_55%)] flex flex-col w-full">
       <LandingNav />
       <main className="flex-1 w-full">
         <LandingHero />

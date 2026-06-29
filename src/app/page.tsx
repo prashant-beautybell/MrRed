@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { LandingPage } from "@/components/templates/LandingPage";
 
 export const metadata: Metadata = {
-  title: "Mr. Red | Deal Signal Intelligence",
+  title: "Mr. Red | Your Everyday Decision Companion",
   description:
-    "Stress-test companies and deals with hard gates, weighted scoring, and clear red, amber, or green signals.",
+    "Vet people and businesses, plan travel, find the best value, and get one clear red, amber, or green call — with reasoning.",
 };
 
 export default function HomePage() {

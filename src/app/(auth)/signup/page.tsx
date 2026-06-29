@@ -38,7 +38,7 @@ export default function SignupPage() {
     <>
       <h1 className="text-2xl font-bold mb-1">Create account</h1>
       <p className="text-muted-foreground text-sm mb-6">
-        Start analyzing deals with confidence
+        One clear verdict on every decision
       </p>
 
       <form onSubmit={handleSubmit} className="space-y-4">

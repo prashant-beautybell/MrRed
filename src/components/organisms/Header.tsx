@@ -38,7 +38,7 @@ export function Header({ onMenuOpen }: HeaderProps) {
   };
 
   return (
-    <header className="sticky top-0 z-30 w-full shrink-0 border-b border-border bg-card/80 backdrop-blur-sm">
+    <header className="sticky top-0 z-30 w-full shrink-0 border-b border-border/50 premium-surface">
       <Container fluid className="flex min-h-14 items-center gap-3 py-2">
         <Button
           type="button"
