@@ -1,7 +1,7 @@
 "use client";
 
 import { MrRedMascot } from "@/components/atoms/MrRedMascot";
-import { MrRedWordmark } from "@/components/atoms/MrRedWordmark";
+import { AuthHeroQuotes } from "@/components/molecules/AuthHeroQuotes";
 import { TrafficLight } from "@/components/organisms/TrafficLight";
 
 export function AuthHeroPanel() {
@@ -17,7 +17,7 @@ export function AuthHeroPanel() {
             className="shrink-0 pb-2 sm:pb-3"
           />
         </div>
-        <MrRedWordmark size="hero" />
+        <AuthHeroQuotes />
       </div>
     </aside>
   );

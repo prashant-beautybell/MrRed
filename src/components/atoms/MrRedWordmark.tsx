@@ -38,8 +38,10 @@ export function MrRedWordmark({
     >
       <p
         className={cn(
-          "font-bold italic tracking-tight leading-none",
-          textSizeMap[size]
+          "font-bold italic leading-none",
+          fullWidth
+            ? "text-[length:clamp(2.5rem,16cqw,3.75rem)] tracking-tight"
+            : cn("tracking-tight", textSizeMap[size])
         )}
       >
         <span className="text-foreground">Mr.</span>{" "}
@@ -52,7 +54,7 @@ export function MrRedWordmark({
           preserveAspectRatio="none"
           className={cn(
             "text-primary -mt-0.5",
-            fullWidth ? "h-2.5 w-full" : swooshWidthMap[size]
+            fullWidth ? "mt-1 h-3 w-full sm:h-3.5" : swooshWidthMap[size]
           )}
         >
           <path
