@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/atoms/Button";
 import { Input } from "@/components/atoms/Input";
+import { PasswordInput } from "@/components/molecules/PasswordInput";
 import { Label } from "@/components/atoms/Label";
 import { SignalLoader } from "@/components/atoms/SignalLoader";
 import { SIGNAL_STEP_MS_FAST } from "@/lib/signal-loader-timing";
@@ -69,13 +70,13 @@ export default function LoginPage() {
         </div>
         <div className="space-y-2">
           <Label htmlFor="password">Password</Label>
-          <Input
+          <PasswordInput
             id="password"
-            type="password"
             placeholder="••••••••"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            autoComplete="current-password"
           />
         </div>
 
