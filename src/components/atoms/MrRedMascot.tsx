@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 
+const MASCOT_ASPECT = 406 / 615;
 const MASCOT_SRC = "/mrred-mascot.png";
 
 const sizeMap = {
@@ -25,7 +26,7 @@ export function MrRedMascot({
   priority = false,
 }: MrRedMascotProps) {
   const height = sizeMap[size];
-  const width = Math.round(height * 0.72);
+  const width = Math.round(height * MASCOT_ASPECT);
 
   return (
     <Image
