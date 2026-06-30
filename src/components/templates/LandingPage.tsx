@@ -6,6 +6,8 @@ import { Container } from "@/components/templates/Container";
 import { SiteFooter } from "@/components/templates/SiteFooter";
 import { MrRedMascot } from "@/components/atoms/MrRedMascot";
 import { MrRedWordmark } from "@/components/atoms/MrRedWordmark";
+import { LandingPlatformSection } from "@/components/organisms/LandingPlatformSection";
+import { LandingTestimonials } from "@/components/organisms/LandingTestimonials";
 import { TrafficLight } from "@/components/organisms/TrafficLight";
 import {
   ArrowRight,
@@ -94,6 +96,9 @@ function LandingNav() {
           <MrRedWordmark size="sm" showSwoosh={false} className="items-start" />
         </Link>
         <nav className="hidden items-center gap-8 text-sm text-muted-foreground md:flex">
+          <a href="#platform" className="hover:text-foreground transition-colors">
+            Platform
+          </a>
           <a href="#features" className="hover:text-foreground transition-colors">
             Features
           </a>
@@ -102,6 +107,9 @@ function LandingNav() {
           </a>
           <a href="#signals" className="hover:text-foreground transition-colors">
             Signals
+          </a>
+          <a href="#testimonials" className="hover:text-foreground transition-colors">
+            Stories
           </a>
         </nav>
         <div className="flex items-center gap-2">
@@ -425,8 +433,10 @@ export function LandingPage() {
       <main className="flex-1 w-full">
         <LandingHero />
         <StatsStrip />
+        <LandingPlatformSection />
         <FeaturesSection />
         <HowItWorksSection />
+        <LandingTestimonials />
         <SignalsSection />
         <CtaSection />
       </main>

@@ -112,4 +112,35 @@ body {
   .mrred-dance {
     animation: none;
   }
+
+  .testimonial-marquee-forward,
+  .testimonial-marquee-backward {
+    animation: none;
+  }
+}
+
+@keyframes testimonial-marquee-forward {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes testimonial-marquee-backward {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.testimonial-marquee-forward {
+  animation: testimonial-marquee-forward 50s linear infinite;
+}
+
+.testimonial-marquee-backward {
+  animation: testimonial-marquee-backward 55s linear infinite;
 }

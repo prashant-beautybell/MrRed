@@ -2,17 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-
-const QUOTES = [
-  "Found a better flight in ten minutes than I got from three booking tabs open at once.",
-  "Compared two hotels and told me which one was actually worth the extra night.",
-  "Ran a deep dive on a company we were about to invest in. Caught things our deck missed.",
-  "Researched products down to spec sheets the brand never bothered to publish.",
-  "Surprised us with how thorough the check was on a contractor we almost hired blind.",
-  "Spotted lease language that would have cost us money six months in.",
-  "Picked a dinner spot based on what we like, not whatever had the loudest reviews.",
-  "Vetted a vendor pitch and came back with facts their sales deck left out.",
-] as const;
+import { TESTIMONIALS } from "@/lib/testimonials";
 
 /** Time each quote stays fully visible before transitioning. */
 const DISPLAY_MS = 5000;
@@ -24,7 +14,7 @@ export function AuthHeroQuotes() {
 
   useEffect(() => {
     const timer = window.setInterval(() => {
-      setIndex((current) => (current + 1) % QUOTES.length);
+      setIndex((current) => (current + 1) % TESTIMONIALS.length);
     }, DISPLAY_MS);
     return () => window.clearInterval(timer);
   }, []);
@@ -53,7 +43,7 @@ export function AuthHeroQuotes() {
             &ldquo;
           </span>
           <p className="px-8 pt-8 pb-8 text-center text-base sm:text-lg italic leading-relaxed text-zinc-700">
-            {QUOTES[index]}
+            {TESTIMONIALS[index]}
           </p>
           <span
             aria-hidden
