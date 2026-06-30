@@ -26,7 +26,8 @@ type ChatSessionContextValue = {
   selectChat: (id: string) => void;
   deleteChat: (id: string) => Promise<void>;
   refreshChats: () => Promise<void>;
-  registerChat: (chat: ChatSummary) => void;
+  registerChat: (chat: ChatSummary, options?: { softUrl?: boolean }) => void;
+  syncActiveChatUrl: (id: string) => void;
   setHasMessages: (has: boolean) => void;
 };
 
@@ -97,14 +98,39 @@ export function ChatSessionProvider({
     [activeChatId, newChat]
   );
 
-  const registerChat = useCallback((chat: ChatSummary) => {
-    setChats((prev) => {
-      const without = prev.filter((c) => c.id !== chat.id);
-      return [chat, ...without];
-    });
-    setActiveChatId(chat.id);
-    router.replace(`/dashboard?chat=${chat.id}`);
-  }, [router]);
+  const registerChat = useCallback(
+    (chat: ChatSummary, options?: { softUrl?: boolean }) => {
+      setChats((prev) => {
+        const without = prev.filter((c) => c.id !== chat.id);
+        return [chat, ...without];
+      });
+      setActiveChatId(chat.id);
+
+      if (options?.softUrl && typeof window !== "undefined") {
+        const url = new URL(window.location.href);
+        url.pathname = "/dashboard";
+        url.searchParams.set("chat", chat.id);
+        window.history.replaceState(null, "", `${url.pathname}?${url.search}`);
+        return;
+      }
+
+      router.replace(`/dashboard?chat=${chat.id}`);
+    },
+    [router]
+  );
+
+  const syncActiveChatUrl = useCallback(
+    (id: string) => {
+      if (typeof window !== "undefined") {
+        const url = new URL(window.location.href);
+        url.pathname = "/dashboard";
+        url.searchParams.set("chat", id);
+        window.history.replaceState(null, "", `${url.pathname}?${url.search}`);
+      }
+      setActiveChatId(id);
+    },
+    []
+  );
 
   const value = useMemo(
     () => ({
@@ -118,6 +144,7 @@ export function ChatSessionProvider({
       deleteChat,
       refreshChats,
       registerChat,
+      syncActiveChatUrl,
       setHasMessages,
     }),
     [
@@ -131,6 +158,7 @@ export function ChatSessionProvider({
       deleteChat,
       refreshChats,
       registerChat,
+      syncActiveChatUrl,
     ]
   );
 
@@ -158,6 +186,7 @@ export function useChatSession() {
       deleteChat: noopAsync,
       refreshChats: noopAsync,
       registerChat: noop,
+      syncActiveChatUrl: noop,
       setHasMessages: noop,
     };
   }
@@ -166,10 +195,10 @@ export function useChatSession() {
 
 export async function ensureChatSession(
   activeChatId: string | null,
-  registerChat: (chat: ChatSummary) => void
+  registerChat: (chat: ChatSummary, options?: { softUrl?: boolean }) => void
 ): Promise<string> {
   if (activeChatId) return activeChatId;
   const chat = await createChat();
-  registerChat(chat);
+  registerChat(chat, { softUrl: true });
   return chat.id;
 }

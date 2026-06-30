@@ -80,23 +80,14 @@ export async function POST(request: Request, context: RouteContext) {
       .where(eq(chats.id, id));
 
     return NextResponse.json(message, { status: 201 });
-  } catch {
-    const chat = devStore.getChat(id, session.user.id);
-    if (!chat) {
-      return NextResponse.json({ error: "Not found" }, { status: 404 });
-    }
-
-    const message = devStore.addChatMessage(id, session.user.id, {
-      role,
-      content,
-    });
-
-    if (role === "user" && chat.title === "New chat") {
-      devStore.updateChat(id, session.user.id, {
-        title: chatTitleFromMessage(content),
-      });
-    }
-
-    return NextResponse.json(message, { status: 201 });
+  } catch (error) {
+    console.error("[chats/messages POST]", error);
+    return NextResponse.json(
+      {
+        error:
+          "Database error. Ensure DATABASE_URL is set on Vercel and run npm run db:push.",
+      },
+      { status: 503 }
+    );
   }
 }

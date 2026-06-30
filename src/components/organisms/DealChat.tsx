@@ -94,6 +94,8 @@ export function DealChat() {
   const [loadingChat, setLoadingChat] = useState(false);
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [attachments, setAttachments] = useState<ComposerAttachment[]>([]);
+  const [sendError, setSendError] = useState<string | null>(null);
+  const sendingRef = useRef(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -112,6 +114,8 @@ export function DealChat() {
       setLoadingChat(false);
       return;
     }
+
+    if (sendingRef.current) return;
 
     let cancelled = false;
     setLoadingChat(true);
@@ -159,7 +163,17 @@ export function DealChat() {
     if ((!trimmed && !hasFiles) || thinking) return;
 
     const content = formatMessageContent(trimmed, files);
-    const chatId = await ensureChatSession(activeChatId, registerChat);
+    setSendError(null);
+    sendingRef.current = true;
+
+    let chatId = activeChatId;
+    try {
+      chatId = await ensureChatSession(activeChatId, registerChat);
+    } catch {
+      sendingRef.current = false;
+      setSendError("Could not start a chat. Check you're signed in and the database is connected.");
+      return;
+    }
 
     const optimisticUser: ChatMessageData = {
       id: `tmp-${Date.now()}`,
@@ -182,11 +196,17 @@ export function DealChat() {
       const savedAssistant = await postChatMessage(chatId, "assistant", reply);
       setMessages((m) => [...m, savedAssistant]);
       void refreshChats();
-    } catch {
+    } catch (err) {
       setMessages((m) => m.filter((msg) => msg.id !== optimisticUser.id));
       setInput(trimmed);
       setAttachments(files);
+      setSendError(
+        err instanceof Error
+          ? err.message
+          : "Message failed to save. On Vercel, set DATABASE_URL and run npm run db:push."
+      );
     } finally {
+      sendingRef.current = false;
       setThinking(false);
       rotateSuggestions();
     }
@@ -265,6 +285,11 @@ export function DealChat() {
           </div>
 
           <div className="mx-auto w-full max-w-3xl">
+            {sendError && (
+              <p className="mb-3 rounded-lg border border-signal-red/30 bg-signal-red-bg px-3 py-2 text-sm text-signal-red">
+                {sendError}
+              </p>
+            )}
             <ChatComposer
               ref={textareaRef}
               variant="hero"
@@ -337,6 +362,11 @@ export function DealChat() {
           )}
         >
           <div className="mx-auto w-full max-w-3xl px-1">
+          {sendError && (
+            <p className="mb-3 rounded-lg border border-signal-red/30 bg-signal-red-bg px-3 py-2 text-sm text-signal-red">
+              {sendError}
+            </p>
+          )}
           <div className="mb-3">
             <div className="flex flex-wrap justify-center gap-2">
               {suggestions.slice(0, 3).map((s) => (

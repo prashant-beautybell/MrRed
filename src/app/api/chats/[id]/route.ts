@@ -45,15 +45,12 @@ export async function GET(_request: Request, context: RouteContext) {
       .orderBy(asc(chatMessages.createdAt));
 
     return NextResponse.json({ ...chat, messages });
-  } catch {
-    const chat = devStore.getChat(id, session.user.id);
-    if (!chat) {
-      return NextResponse.json({ error: "Not found" }, { status: 404 });
-    }
-    return NextResponse.json({
-      ...chat,
-      messages: devStore.getChatMessages(id),
-    });
+  } catch (error) {
+    console.error("[chats/id GET]", error);
+    return NextResponse.json(
+      { error: "Database unavailable" },
+      { status: 503 }
+    );
   }
 }
 
@@ -87,11 +84,11 @@ export async function DELETE(_request: Request, context: RouteContext) {
     await db.delete(chatMessages).where(eq(chatMessages.chatId, id));
     await db.delete(chats).where(eq(chats.id, id));
     return NextResponse.json({ ok: true });
-  } catch {
-    const ok = devStore.deleteChat(id, session.user.id);
-    if (!ok) {
-      return NextResponse.json({ error: "Not found" }, { status: 404 });
-    }
-    return NextResponse.json({ ok: true });
+  } catch (error) {
+    console.error("[chats/id DELETE]", error);
+    return NextResponse.json(
+      { error: "Database unavailable" },
+      { status: 503 }
+    );
   }
 }

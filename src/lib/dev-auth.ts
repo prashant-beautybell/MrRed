@@ -3,8 +3,13 @@ export function isAuthSkipped() {
   return process.env.SKIP_AUTH === "true";
 }
 
-/** Use in-memory store (dev + optional demo data) */
+/**
+ * In-memory dev store only works on a long-lived local Node process.
+ * On Vercel/serverless each request may hit a cold instance — chats vanish.
+ */
 export function useLocalStore() {
+  if (process.env.VERCEL === "1") return false;
+  if (process.env.NODE_ENV === "production") return false;
   return isAuthSkipped() || process.env.DEMO_DATA === "true";
 }
 

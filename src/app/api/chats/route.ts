@@ -24,8 +24,12 @@ export async function GET() {
       .where(eq(chats.userId, session.user.id))
       .orderBy(desc(chats.updatedAt));
     return NextResponse.json(rows);
-  } catch {
-    return NextResponse.json(devStore.listChats(session.user.id));
+  } catch (error) {
+    console.error("[chats GET]", error);
+    return NextResponse.json(
+      { error: "Database unavailable" },
+      { status: 503 }
+    );
   }
 }
 
@@ -54,8 +58,11 @@ export async function POST() {
       })
       .returning();
     return NextResponse.json(chat, { status: 201 });
-  } catch {
-    const chat = devStore.createChat(session.user.id);
-    return NextResponse.json(chat, { status: 201 });
+  } catch (error) {
+    console.error("[chats POST]", error);
+    return NextResponse.json(
+      { error: "Database unavailable" },
+      { status: 503 }
+    );
   }
 }

@@ -23,9 +23,20 @@ export async function fetchChats(): Promise<ChatSummary[]> {
   return res.json();
 }
 
+async function readApiError(res: Response, fallback: string) {
+  try {
+    const data = (await res.json()) as { error?: string };
+    return data.error ?? fallback;
+  } catch {
+    return fallback;
+  }
+}
+
 export async function createChat(): Promise<ChatSummary> {
   const res = await fetch("/api/chats", { method: "POST" });
-  if (!res.ok) throw new Error("Failed to create chat");
+  if (!res.ok) {
+    throw new Error(await readApiError(res, "Failed to create chat"));
+  }
   return res.json();
 }
 
@@ -50,6 +61,8 @@ export async function postChatMessage(
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ role, content }),
   });
-  if (!res.ok) throw new Error("Failed to save message");
+  if (!res.ok) {
+    throw new Error(await readApiError(res, "Failed to save message"));
+  }
   return res.json();
 }
