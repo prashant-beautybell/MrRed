@@ -54,7 +54,7 @@ export const ChatComposer = forwardRef<HTMLTextAreaElement, ChatComposerProps>(
       onKeyDown,
       disabled,
       variant = "bar",
-      placeholder = "Ask anything — deals, travel, people, local picks…",
+      placeholder = "Ask anything: deals, travel, people, local picks…",
       attachments = [],
       onFilesSelected,
       onRemoveAttachment,

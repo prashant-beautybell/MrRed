@@ -29,14 +29,14 @@ const features = [
     icon: MessageSquare,
     title: "Ask anything",
     description:
-      "Deals, hires, hotels, flights, local services, or a surprise night out — chat naturally and get one clear verdict.",
+      "Deals, hires, hotels, flights, local services, or a surprise night out. Chat naturally and get one clear verdict.",
     accent: "text-primary bg-signal-red-bg",
   },
   {
     icon: Shield,
     title: "People & trust checks",
     description:
-      "Vet employees, contractors, vendors, and partners — background patterns, references, and trust signals in plain language.",
+      "Vet employees, contractors, vendors, and partners. You get background patterns, references, and trust signals in plain language.",
     accent: "text-signal-red bg-signal-red-bg",
   },
   {
@@ -73,17 +73,17 @@ const steps = [
   {
     step: "01",
     title: "Ask anything",
-    body: "A deal, a hire, a hotel, flights on a budget, or “surprise me” — chat like you would with a sharp friend.",
+    body: "A deal, a hire, a hotel, flights on a budget, or “surprise me”. Chat like you would with a sharp friend.",
   },
   {
     step: "02",
     title: "Get one color",
-    body: "Mr. Red returns a single red, amber, or green verdict with clear reasoning — no tables, no noise.",
+    body: "Mr. Red returns a single red, amber, or green verdict with clear reasoning. No tables, no noise.",
   },
   {
     step: "03",
     title: "Act with confidence",
-    body: "Walk away, dig deeper, or go — whether it's capital, trust, or your Saturday plans.",
+    body: "Walk away, dig deeper, or go, whether it's capital, trust, or your Saturday plans.",
   },
 ];
 
@@ -148,8 +148,8 @@ function LandingHero() {
             </h1>
             <p className="mt-6 max-w-lg text-lg text-muted-foreground leading-relaxed">
               Mr. Red vets businesses and people, finds the best hotel for the
-              buck, plans trips on your budget, and stress-tests investments —
-              then gives a single red, amber, or green call with why.
+              buck, plans trips on your budget, and stress-tests investments.
+              Then you get a single red, amber, or green call with why.
             </p>
             <div className="mt-9 flex flex-wrap items-center gap-3">
               <Button
@@ -238,7 +238,7 @@ function FeaturesSection() {
             Built for decisions big and small
           </h2>
           <p className="mt-4 text-lg text-muted-foreground">
-            From closing a deal to booking a flight or picking a barber — one
+            From closing a deal to booking a flight or picking a barber. One
             language, one verdict, clear reasoning.
           </p>
         </div>
@@ -332,7 +332,7 @@ function SignalsSection() {
               One language for every call
             </h2>
             <p className="mt-4 text-lg text-muted-foreground leading-relaxed">
-              No verdict tables — just red, amber, or green for your specific
+              No verdict tables, just red, amber, or green for your specific
               question, plus the reasoning behind it.
             </p>
             <div className="mt-8 flex justify-center lg:justify-start">
@@ -394,7 +394,7 @@ function CtaSection() {
           Ready for your next decision?
         </h2>
         <p className="mx-auto mt-4 max-w-xl text-lg text-white/75">
-          Deals, people, travel, surprises — ask Mr. Red and get one color with
+          Deals, people, travel, surprises. Ask Mr. Red and get one color with
           why.
         </p>
         <div className="mt-9 flex flex-wrap justify-center gap-3">

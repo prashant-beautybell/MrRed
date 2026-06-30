@@ -16,12 +16,12 @@ const signalStyles: Record<
   amber: {
     badge: "bg-signal-amber-bg text-signal-amber border-signal-amber/25",
     ring: "ring-signal-amber/20",
-    label: "🟡 Amber — situational",
+    label: "🟡 Amber, situational",
   },
   red: {
     badge: "bg-signal-red-bg text-signal-red border-signal-red/25",
     ring: "ring-signal-red/20",
-    label: "🔴 Red — skip",
+    label: "🔴 Red, skip",
   },
 };
 
@@ -174,8 +174,8 @@ export function ResearchBriefView({ brief }: { brief: ResearchBrief }) {
       </div>
 
       <p className="text-[11px] text-muted-foreground leading-relaxed border-t border-border/60 pt-3">
-        {brief.methodology} Prices and availability checked at research time —
-        verify on retailer sites before buying.
+        {brief.methodology} Prices and availability checked at research time.
+        Verify on retailer sites before buying.
       </p>
     </div>
   );

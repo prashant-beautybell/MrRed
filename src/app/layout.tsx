@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Mr. Red | Your Everyday Decision Companion",
   description:
-    "One clear red, amber, or green verdict on deals, people, travel, investments, and everyday choices — with reasoning you can act on.",
+    "One clear red, amber, or green verdict on deals, people, travel, investments, and everyday choices, with reasoning you can act on.",
   icons: {
     icon: [{ url: "/mrred-mascot.png", type: "image/png" }],
     apple: "/mrred-mascot.png",

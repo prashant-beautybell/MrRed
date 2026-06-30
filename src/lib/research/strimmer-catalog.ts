@@ -59,7 +59,7 @@ const STRIMMER_PRODUCTS: ResearchProduct[] = [
     url: "https://www.gtech.co.uk/products/grass-trimmer-gt50",
     retailer: "Gtech",
     signal: "green",
-    note: "Lightweight with excellent edging head — ideal for tidy borders.",
+    note: "Lightweight with excellent edging head, ideal for tidy borders.",
   },
   {
     id: "stihl-fsa-30",
@@ -89,7 +89,7 @@ const STRIMMER_PRODUCTS: ResearchProduct[] = [
     url: "https://www.echo.co.uk/products/brushcutters-trimmers/srm-2620/",
     retailer: "Echo UK",
     signal: "amber",
-    note: "Overkill for typical home gardens — best for heavy brush and pro use.",
+    note: "Overkill for typical home gardens. Best for heavy brush and pro use.",
   },
   {
     id: "ryobi-rbc18x",
@@ -130,9 +130,9 @@ export function buildStrimmerResearch(query: string): ResearchBrief {
     sourcesChecked: 24,
     verdict: "green",
     verdictReasons: [
-      "**Kärcher LTR 18-30** is my top pick — 30cm cut, solid 18V runtime, and consistent expert reviews for medium gardens.",
+      "**Kärcher LTR 18-30** is my top pick: 30cm cut, solid 18V runtime, and consistent expert reviews for medium gardens.",
       "Cordless dominates the value band (£80–£170); corded still wins for tiny gardens under £40 if you have outdoor power.",
-      "Skip gas unless you're clearing heavy brush weekly — weight and maintenance rarely justify it for home use.",
+      "Skip gas unless you're clearing heavy brush weekly. Weight and maintenance rarely justify it for home use.",
     ],
     topPickId: "karcher-ltr-18-30",
     products: STRIMMER_PRODUCTS,

@@ -11,7 +11,7 @@ export default function AboutPage() {
       />
       <div className="prose prose-sm sm:prose-base max-w-none text-muted-foreground space-y-4">
         <p>
-          Mr. Red is your everyday decision companion — vet people and
+          Mr. Red is your everyday decision companion. Vet people and
           businesses, plan travel, find value, and get a single red, amber, or
           green call with clear reasoning.
         </p>

@@ -279,8 +279,7 @@ export function DealChat() {
               Deep research with real product links, then one clear{" "}
               <span className="text-foreground font-medium">red</span>,{" "}
               <span className="text-signal-amber font-medium">amber</span>, or{" "}
-              <span className="text-signal-green font-medium">green</span> verdict
-              — built for decisions, not generic comparisons.
+              <span className="text-signal-green font-medium">green</span>               verdict, built for decisions, not generic comparisons.
             </p>
           </div>
 
@@ -301,7 +300,7 @@ export function DealChat() {
               attachments={attachments}
               onFilesSelected={handleFilesSelected}
               onRemoveAttachment={handleRemoveAttachment}
-              placeholder="Ask anything — deals, people, hotels, flights, local picks, or surprise me…"
+              placeholder="Ask anything: deals, people, hotels, flights, local picks, or surprise me…"
             />
           </div>
 
