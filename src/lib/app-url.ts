@@ -1,3 +1,5 @@
+import type { BaseURLConfig } from "better-auth";
+
 function trimTrailingSlash(url: string) {
   return url.replace(/\/$/, "");
 }
@@ -25,10 +27,41 @@ export function getAppUrl(): string {
   return `http://localhost:${port}`;
 }
 
-/** Browser origin when available; otherwise same resolution as getAppUrl(). */
-export function getClientAppUrl(): string {
-  if (typeof window !== "undefined") {
-    return window.location.origin;
-  }
-  return getAppUrl();
+/**
+ * Better Auth base URL — static override or dynamic multi-host (Vercel previews + custom domains).
+ * Optional: BETTER_AUTH_ALLOWED_HOSTS=comma,separated,hosts
+ */
+export function getAuthBaseURL(): BaseURLConfig {
+  const explicit =
+    process.env.BETTER_AUTH_URL ?? process.env.NEXT_PUBLIC_APP_URL;
+  if (explicit) return trimTrailingSlash(explicit);
+
+  const allowedHosts = ["localhost", "127.0.0.1", "*.vercel.app"];
+  const extraHosts = process.env.BETTER_AUTH_ALLOWED_HOSTS?.split(",")
+    .map((host) => host.trim())
+    .filter(Boolean);
+  if (extraHosts?.length) allowedHosts.push(...extraHosts);
+
+  return {
+    allowedHosts,
+    protocol: "auto",
+    fallback: getAppUrl(),
+  };
+}
+
+/** Session cookie names Better Auth may set (plain dev vs __Secure- production). */
+export const SESSION_COOKIE_NAMES = [
+  "better-auth.session_token",
+  "__Secure-better-auth.session_token",
+] as const;
+
+export function hasAuthSessionCookie(
+  cookies: { name: string; value: string }[]
+): boolean {
+  return cookies.some(
+    (cookie) =>
+      SESSION_COOKIE_NAMES.includes(
+        cookie.name as (typeof SESSION_COOKIE_NAMES)[number]
+      ) && cookie.value.length > 0
+  );
 }

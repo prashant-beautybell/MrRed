@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { hasAuthSessionCookie } from "@/lib/app-url";
 
 const publicPaths = ["/", "/about", "/privacy", "/terms", "/login", "/signup", "/api/auth"];
 const DEV_LOGGED_OUT_COOKIE = "mrred_dev_logged_out";
@@ -39,9 +40,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  const sessionCookie = request.cookies.get("better-auth.session_token");
-
-  if (!sessionCookie) {
+  if (!hasAuthSessionCookie(request.cookies.getAll())) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 

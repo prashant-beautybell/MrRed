@@ -23,15 +23,21 @@ export default function SignupPage() {
     setLoading(true);
     setError("");
 
-    const result = await signUp.email({ name, email, password });
+    try {
+      const result = await signUp.email({ name, email, password });
 
-    if (result.error) {
-      setError(result.error.message ?? "Failed to create account");
+      if (result.error) {
+        setError(result.error.message ?? "Failed to create account");
+        return;
+      }
+
+      router.push("/dashboard");
+      router.refresh();
+    } catch {
+      setError("Could not create account. Check your connection and try again.");
+    } finally {
       setLoading(false);
-      return;
     }
-
-    router.push("/dashboard");
   };
 
   return (

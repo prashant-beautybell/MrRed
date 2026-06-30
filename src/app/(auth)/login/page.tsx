@@ -25,15 +25,21 @@ export default function LoginPage() {
     setLoading(true);
     setError("");
 
-    const result = await signIn.email({ email, password });
+    try {
+      const result = await signIn.email({ email, password });
 
-    if (result.error) {
-      setError(result.error.message ?? "Invalid credentials");
+      if (result.error) {
+        setError(result.error.message ?? "Invalid credentials");
+        return;
+      }
+
+      router.push("/dashboard");
+      router.refresh();
+    } catch {
+      setError("Could not sign in. Check your connection and try again.");
+    } finally {
       setLoading(false);
-      return;
     }
-
-    router.push("/dashboard");
   };
 
   const handleDevContinue = () => {
