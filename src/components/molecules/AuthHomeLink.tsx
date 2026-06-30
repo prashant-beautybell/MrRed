@@ -1,5 +1,5 @@
-import Image from "next/image";
 import Link from "next/link";
+import { MrRedWordmark } from "@/components/atoms/MrRedWordmark";
 
 export function AuthHomeLink() {
   return (
@@ -8,14 +8,7 @@ export function AuthHomeLink() {
       className="mb-8 block w-full rounded-lg transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
       aria-label="Back to Mr. Red homepage"
     >
-      <Image
-        src="/mrred-wordmark-auth.png"
-        alt="Mr. Red"
-        width={252}
-        height={127}
-        className="h-auto w-full"
-        priority
-      />
+      <MrRedWordmark size="lg" fullWidth />
     </Link>
   );
 }

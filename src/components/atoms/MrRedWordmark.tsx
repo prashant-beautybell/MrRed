@@ -4,6 +4,8 @@ interface MrRedWordmarkProps {
   size?: "sm" | "md" | "lg" | "hero";
   className?: string;
   showSwoosh?: boolean;
+  /** Stretch swoosh to container width (e.g. auth form column). */
+  fullWidth?: boolean;
 }
 
 const textSizeMap = {
@@ -24,9 +26,16 @@ export function MrRedWordmark({
   size = "lg",
   className,
   showSwoosh = true,
+  fullWidth = false,
 }: MrRedWordmarkProps) {
   return (
-    <div className={cn("inline-flex flex-col items-center", className)}>
+    <div
+      className={cn(
+        "inline-flex flex-col",
+        fullWidth ? "w-full items-start" : "items-center",
+        className
+      )}
+    >
       <p
         className={cn(
           "font-bold italic tracking-tight leading-none",
@@ -40,7 +49,11 @@ export function MrRedWordmark({
         <svg
           viewBox="0 0 260 24"
           aria-hidden
-          className={cn("text-primary -mt-0.5", swooshWidthMap[size])}
+          preserveAspectRatio="none"
+          className={cn(
+            "text-primary -mt-0.5",
+            fullWidth ? "h-2.5 w-full" : swooshWidthMap[size]
+          )}
         >
           <path
             d="M8 16 C70 4, 130 4, 252 14"
