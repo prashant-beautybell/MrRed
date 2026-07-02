@@ -6,10 +6,12 @@ import Link from "next/link";
 import { Button } from "@/components/atoms/Button";
 import { Input } from "@/components/atoms/Input";
 import { PasswordInput } from "@/components/molecules/PasswordInput";
+import { GoogleAuthButton } from "@/components/molecules/GoogleAuthButton";
 import { Label } from "@/components/atoms/Label";
 import { SignalLoader } from "@/components/atoms/SignalLoader";
 import { SIGNAL_STEP_MS_FAST } from "@/lib/signal-loader-timing";
 import { signIn } from "@/lib/auth-client";
+import { signInSchema } from "@/lib/auth-validation";
 
 const DEV_LOGGED_OUT_COOKIE = "mrred_dev_logged_out";
 const isDevMode = process.env.NEXT_PUBLIC_SKIP_AUTH === "true";
@@ -19,15 +21,22 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<"email" | "google" | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
     setError("");
 
+    const parsed = signInSchema.safeParse({ email, password });
+    if (!parsed.success) {
+      setError(parsed.error.issues[0]?.message ?? "Check your details and try again.");
+      return;
+    }
+
+    setLoading("email");
+
     try {
-      const result = await signIn.email({ email, password });
+      const result = await signIn.email(parsed.data);
 
       if (result.error) {
         setError(result.error.message ?? "Invalid credentials");
@@ -39,7 +48,7 @@ export default function LoginPage() {
     } catch {
       setError("Could not sign in. Check your connection and try again.");
     } finally {
-      setLoading(false);
+      setLoading(null);
     }
   };
 
@@ -56,6 +65,34 @@ export default function LoginPage() {
         Sign in to your everyday companion
       </p>
 
+      <GoogleAuthButton
+        mode="signin"
+        loading={loading === "google"}
+        disabled={loading !== null}
+        onClick={async () => {
+          setError("");
+          setLoading("google");
+          try {
+            await signIn.social({
+              provider: "google",
+              callbackURL: "/dashboard",
+              errorCallbackURL: "/login",
+            });
+          } catch {
+            setError("Could not continue with Google. Try again.");
+            setLoading(null);
+          }
+        }}
+      />
+
+      <div className="my-4 flex items-center gap-3">
+        <div className="h-px flex-1 bg-border" />
+        <span className="text-xs uppercase tracking-wide text-muted-foreground">
+          or
+        </span>
+        <div className="h-px flex-1 bg-border" />
+      </div>
+
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-2">
           <Label htmlFor="email">Email</Label>
@@ -65,6 +102,7 @@ export default function LoginPage() {
             placeholder="you@company.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            autoComplete="email"
             required
           />
         </div>
@@ -75,6 +113,7 @@ export default function LoginPage() {
             placeholder="••••••••"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            maxLength={128}
             required
             autoComplete="current-password"
           />
@@ -86,8 +125,8 @@ export default function LoginPage() {
           </p>
         )}
 
-        <Button type="submit" className="w-full" disabled={loading}>
-          {loading ? (
+        <Button type="submit" className="w-full" disabled={loading !== null}>
+          {loading === "email" ? (
             <SignalLoader size="sm" stepMs={SIGNAL_STEP_MS_FAST} />
           ) : (
             "Sign in"
@@ -101,6 +140,7 @@ export default function LoginPage() {
           variant="outline"
           className="w-full mt-3"
           onClick={handleDevContinue}
+          disabled={loading !== null}
         >
           Continue as Dev User
         </Button>
